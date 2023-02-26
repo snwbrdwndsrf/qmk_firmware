@@ -6,25 +6,25 @@ AlignConsecutiveDeclarations: 'true'
 AlignOperands: 'true'
 AllowAllParametersOfDeclarationOnNextLine: 'false'
 AllowShortCaseLabelsOnASingleLine: 'false'
-AllowShortFunctionsOnASingleLine: Empty
-AllowShortLoopsOnASingleLine: 'false'
+AllowShortFunctionsOnASingleLine: 'true'
+AllowShortLoopsOnASingleLine: 'true'
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
-AlwaysBreakBeforeMultilineStrings: 'false'
+AlwaysBreakBeforeMultilineStrings: None
 BinPackArguments: 'true'
 BinPackParameters: 'true'
 ColumnLimit: '1000'
 IndentCaseLabels: 'true'
 IndentPPDirectives: AfterHash
-IndentWidth: '4'
+IndentWidth: '2'
 MaxEmptyLinesToKeep: '1'
-PointerAlignment: Right
-SortIncludes: 'false'
+PointerAlignment: Left
+SortIncludes: 'true'
 SpaceBeforeAssignmentOperators: 'true'
 SpaceBeforeParens: ControlStatements
 SpaceInEmptyParentheses: 'false'
 SpacesBeforeTrailingComments: 1
-TabWidth: '4'
+TabWidth: '2'
 UseTab: Never
 
 ...
