@@ -1,7 +1,7 @@
 #include QMK_KEYBOARD_H
 
-//#define MAC_OS
-#define LINUX
+#define MAC_OS
+// #define LINUX
 
 // Define as many things as possible as common between MacOS and Linux.
 #if defined(MAC_OS)
@@ -14,10 +14,11 @@
   #define SH_COPY G(KC_C)
   #define SH_CUT G(KC_X)
   #define SH_PSTE G(KC_V)
+  #define SH_SAVE G(KC_S)
   #define SH_UNDO G(KC_Z)
   #define SH_NWTB G(KC_T)
-  #define SH_WORDL _______
-  #define SH_WORDR _______
+  #define SH_WORDL A(KC_LEFT)
+  #define SH_WORDR A(KC_RIGHT)
 #elif defined(LINUX)
   #define SS_END SS_TAP(X_END)
   #define ALT_TAB_MOD KC_LALT
@@ -27,6 +28,7 @@
   #define SH_COPY C(KC_C)
   #define SH_CUT C(KC_X)
   #define SH_PSTE C(KC_V)
+  #define SH_SAVE C(KC_S)
   #define SH_UNDO C(KC_Z)
   #define SH_NWTB C(KC_T)
   #define SH_WORDL C(KC_LEFT)
@@ -42,6 +44,37 @@ enum my_keycodes {
   SH_NL = SH_NEW_LINE,
   SH_PWD,
   SH_TAB,
+};
+
+//---------------------------------------------------------------------------------
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  [0] = LAYOUT_ansi(
+    KC_ESC,           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,            KC_F7,   KC_F8,            KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_PSCR, KC_SLEP, KC_MPLY,
+    KC_F13,  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,             KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_BSPC, KC_HOME, KC_END,
+    KC_F14,  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_PGUP, KC_PGDN,
+    KC_F15,  CW_TOGG, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_WH_U, KC_WH_D,
+    DM_PLY1, KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                      KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT,          KC_UP,
+    DM_PLY2, KC_LCTL, MO(1),   KC_LALT, KC_LGUI, KC_LALT, MO(1),                     KC_RCTL, KC_SPC,  KC_RALT, MO(2),                     KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+  ),
+
+  [1] = LAYOUT_ansi(
+    _______,          RGB_VAI, RGB_VAD, RGB_SAI, RGB_SAD, RGB_HUI, RGB_HUD,          RGB_M_P, RGB_M_B,          RGB_M_R,RGB_M_SW,RGB_M_SN, RGB_M_K, RGB_M_X, RGB_M_G, RGB_M_T,
+    _______, RGB_MOD, BL_STEP, RGB_TOG, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, KC_DEL,  KC_DEL,  _______, _______,
+    _______,  SH_TAB, _______, SH_WINCL,SH_END,  KC_PGUP, SH_NWTB,                   _______, SH_UNDO, SH_HOME, SH_NL,   _______, _______, _______, _______, _______, _______,
+    DM_RSTP, KC_CAPS, _______, SH_SAVE, _______, KC_PGDN, _______,                   KC_LEFT, KC_DOWN, KC_UP,  KC_RIGHT, _______, _______,          _______, _______, _______,
+    DM_REC1, _______,          _______, SH_CUT,  SH_COPY, SH_PSTE, _______,          SH_WORDL,SH_WORDR,_______, _______, _______,          _______,          _______,
+    DM_REC2, _______, _______, _______, _______, _______, _______,                   _______, KC_MINS, _______, _______,                   _______, _______, _______, _______
+  ),
+
+  [2] = LAYOUT_ansi(
+    QK_BOOT,          _______, _______, _______, _______, _______, _______,          _______, _______,          _______, _______, _______, _______, _______, SH_PWD,  _______,
+    _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, DT_PRNT, DT_DOWN, DT_UP,   _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, CL_TOGG, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,          _______, _______, _______,
+    _______, _______,          _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______,          _______,          _______,
+    _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______,                   _______, _______, _______, _______
+  )
 };
 
 // Custom tabbing mode variables.
@@ -73,37 +106,6 @@ void TabPrev(void) {
   tabbing_state.tabtimer = timer_read();
   tap_code16(S(KC_TAB));
 }
-
-//---------------------------------------------------------------------------------
-
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [0] = LAYOUT_ansi(
-    KC_ESC,           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,            KC_F7,   KC_F8,            KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_PSCR, KC_SLEP, KC_MPLY,
-    KC_F13,  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,             KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_BSPC, KC_HOME, KC_END,
-    KC_F14,  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_PGUP, KC_PGDN,
-    KC_F15,  CW_TOGG, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_WH_U, KC_WH_D,
-    DM_PLY1, KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                      KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT,          KC_UP,
-    DM_PLY2, KC_LCTL, MO(1),   KC_LALT, KC_LGUI, KC_LALT, MO(1),                     KC_RCTL, KC_SPC,  KC_RALT, MO(2),                     KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
-  ),
-
-  [1] = LAYOUT_ansi(
-    _______,          RGB_VAI, RGB_VAD, RGB_SAI, RGB_SAD, RGB_HUI, RGB_HUD,          RGB_M_P, RGB_M_B,          RGB_M_R,RGB_M_SW,RGB_M_SN, RGB_M_K, RGB_M_X, RGB_M_G, RGB_M_T,
-    _______, RGB_MOD, BL_STEP, RGB_TOG, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, KC_DEL,  KC_DEL,  _______, _______,
-    _______,  SH_TAB, _______, SH_WINCL,SH_END,  KC_PGUP, SH_NWTB,                   _______, SH_UNDO, SH_HOME, SH_NL,   _______, _______, _______, _______, _______, _______,
-    DM_RSTP, KC_CAPS, _______, C(KC_S), _______, KC_PGDN, _______,                   KC_LEFT, KC_DOWN, KC_UP,  KC_RIGHT, _______, _______,          _______, _______, _______,
-    DM_REC1, _______,          _______, SH_CUT,  SH_COPY, SH_PSTE, _______,          SH_WORDL,SH_WORDR,_______, _______, _______,          _______,          _______,
-    DM_REC2, _______, _______, _______, _______, _______, _______,                   _______, KC_MINS, _______, _______,                   _______, _______, _______, _______
-  ),
-
-  [2] = LAYOUT_ansi(
-    QK_BOOT,          _______, _______, _______, _______, _______, _______,          _______, _______,          _______, _______, _______, _______, _______, SH_PWD,  _______,
-    _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, DT_PRNT, DT_DOWN, DT_UP,   _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, CL_TOGG, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,          _______, _______, _______,
-    _______, _______,          _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______,          _______,          _______,
-    _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______,                   _______, _______, _______, _______
-  )
-};
 
 //---------------------------------------------------------------------------------
 // Custom keycode handling (for custom keycodes and custom behaviors).
@@ -151,6 +153,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
   return false;
 }
 
+//---------------------------------------------------------------------------------
+// This is the most frequent user-space scan callback.
+
 void matrix_scan_user(void) {
   if (tabbing_state.tabbing && timer_elapsed(tabbing_state.tabtimer) > TABBING_TIMEOUT) {
     unregister_code(tabbing_state.tab_unregister_code);
@@ -158,9 +163,9 @@ void matrix_scan_user(void) {
   }
 }
 
-//
+//---------------------------------------------------------------------------------
 // Combos (Chording)
-//
+
 enum combo_events {
   CC_IF,
   CC_ELSE,
