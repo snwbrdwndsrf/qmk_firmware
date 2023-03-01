@@ -1,7 +1,7 @@
 #include QMK_KEYBOARD_H
 
-#define MAC_OS
-// #define LINUX
+// #define MAC_OS
+#define LINUX
 
 // Define as many things as possible as common between MacOS and Linux.
 #if defined(MAC_OS)
