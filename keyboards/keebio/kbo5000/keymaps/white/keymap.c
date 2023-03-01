@@ -19,6 +19,10 @@
   #define SH_NWTB G(KC_T)
   #define SH_WORDL A(KC_LEFT)
   #define SH_WORDR A(KC_RIGHT)
+  #define SH_F5 G(KC_R)
+  #define SH_FIND G(KC_F)
+  #define SH_REPL G(A(KC_F))
+  #define SH_SALL G(KC_A)
 #elif defined(LINUX)
   #define SS_END SS_TAP(X_END)
   #define ALT_TAB_MOD KC_LALT
@@ -33,6 +37,10 @@
   #define SH_NWTB C(KC_T)
   #define SH_WORDL C(KC_LEFT)
   #define SH_WORDR C(KC_RIGHT)
+  #define SH_F5 KC_F5
+  #define SH_FIND C(KC_F)
+  #define SH_REPL C(KC_H)
+  #define SH_SALL (KC_A)
 #endif
 
 // CapsLock on tap, CTRL on hold.
@@ -50,7 +58,7 @@ enum my_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_ansi(
-    KC_ESC,           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,            KC_F7,   KC_F8,            KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_PSCR, KC_SLEP, KC_MPLY,
+    KC_ESC,           KC_F1,   KC_F2,   KC_F3,   KC_F4,   SH_F5,   KC_F6,            KC_F7,   KC_F8,            KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_PSCR, KC_SLEP, KC_MPLY,
     KC_F13,  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,             KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_BSPC, KC_HOME, KC_END,
     KC_F14,  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_PGUP, KC_PGDN,
     KC_F15,  CW_TOGG, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_WH_U, KC_WH_D,
@@ -59,19 +67,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [1] = LAYOUT_ansi(
-    _______,          RGB_VAI, RGB_VAD, RGB_SAI, RGB_SAD, RGB_HUI, RGB_HUD,          RGB_M_P, RGB_M_B,          RGB_M_R,RGB_M_SW,RGB_M_SN, RGB_M_K, RGB_M_X, RGB_M_G, RGB_M_T,
+    QK_RBT,           RGB_VAI, RGB_VAD, RGB_SAI, RGB_SAD, RGB_HUI, RGB_HUD,          RGB_M_P, RGB_M_B,          RGB_M_R,RGB_M_SW,RGB_M_SN, RGB_M_K, RGB_M_X, RGB_M_G, RGB_M_T,
     _______, RGB_MOD, BL_STEP, RGB_TOG, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, KC_DEL,  KC_DEL,  _______, _______,
     _______,  SH_TAB, _______, SH_WINCL,SH_END,  KC_PGUP, SH_NWTB,                   _______, SH_UNDO, SH_HOME, SH_NL,   _______, _______, _______, _______, _______, _______,
-    DM_RSTP, KC_CAPS, _______, SH_SAVE, _______, KC_PGDN, _______,                   KC_LEFT, KC_DOWN, KC_UP,  KC_RIGHT, _______, _______,          _______, _______, _______,
-    DM_REC1, _______,          _______, SH_CUT,  SH_COPY, SH_PSTE, _______,          SH_WORDL,SH_WORDR,_______, _______, _______,          _______,          _______,
-    DM_REC2, _______, _______, _______, _______, _______, _______,                   _______, KC_MINS, _______, _______,                   _______, _______, _______, _______
+    DM_RSTP, KC_CAPS, SH_SALL, SH_SAVE, _______, KC_PGDN, _______,                   KC_LEFT, KC_DOWN, KC_UP,  KC_RIGHT, _______, _______,          _______, _______, _______,
+    DM_REC1, _______, SH_UNDO, SH_CUT,  SH_COPY, SH_PSTE, _______,                   SH_WORDL,SH_WORDR,_______, _______, SH_FIND,          _______,          _______,
+    DM_REC2, _______, _______, _______, _______, _______, _______,                   _______, KC_ESC,  _______, _______,                   _______, _______, _______, _______
   ),
 
   [2] = LAYOUT_ansi(
     QK_BOOT,          _______, _______, _______, _______, _______, _______,          _______, _______,          _______, _______, _______, _______, _______, SH_PWD,  _______,
     _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, DT_PRNT, DT_DOWN, DT_UP,   _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, CL_TOGG, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,          _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,          _______, _______, _______,
     _______, _______,          _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______,          _______,          _______,
     _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______,                   _______, _______, _______, _______
   )
