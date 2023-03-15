@@ -43,6 +43,9 @@
   #define SH_SALL (KC_A)
 #endif
 
+// For easier app switching.
+#define SH_META ALT_TAB_MOD
+
 // CapsLock on tap, CTRL on hold.
 #define CAPSCTL CTL_T(CW_TOGG)
 
@@ -51,7 +54,6 @@ enum my_keycodes {
   SH_NEW_LINE = SAFE_RANGE,
   SH_NL = SH_NEW_LINE,
   SH_PWD,
-  SH_TAB,
 };
 
 //---------------------------------------------------------------------------------
@@ -69,10 +71,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [1] = LAYOUT_ansi(
     QK_RBT,           RGB_VAI, RGB_VAD, RGB_SAI, RGB_SAD, RGB_HUI, RGB_HUD,          RGB_M_P, RGB_M_B,          RGB_M_R,RGB_M_SW,RGB_M_SN, RGB_M_K, RGB_M_X, RGB_M_G, RGB_M_T,
     _______, RGB_MOD, BL_STEP, RGB_TOG, RGB_SPI, RGB_SPD, _______, _______,          _______, _______, _______, _______, _______, _______, KC_DEL,  KC_DEL,  _______, _______,
-    _______,  SH_TAB, _______, SH_WINCL,SH_END,  KC_PGUP, SH_NWTB,                   _______, SH_UNDO, SH_HOME, SH_NL,   _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, SH_WINCL,SH_END,  KC_PGUP, SH_NWTB,                   _______, SH_UNDO, SH_HOME, SH_NL,   _______, _______, _______, _______, _______, _______,
     DM_RSTP, KC_CAPS, SH_SALL, SH_SAVE, _______, KC_PGDN, _______,                   KC_LEFT, KC_DOWN, KC_UP,  KC_RIGHT, _______, _______,          _______, _______, _______,
     DM_REC1, _______, SH_UNDO, SH_CUT,  SH_COPY, SH_PSTE, _______,                   SH_WORDL,SH_WORDR,_______, _______, SH_FIND,          _______,          _______,
-    DM_REC2, _______, _______, _______, _______, _______, _______,                   _______, KC_ESC,  _______, _______,                   _______, _______, _______, _______
+    DM_REC2, _______, _______, _______, _______, _______, _______,                   _______, SH_META,  _______, _______,                   _______, _______, _______, _______
   ),
 
   [2] = LAYOUT_ansi(
@@ -135,12 +137,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case SH_PWD:
       if (record->event.pressed) SEND_STRING(";;l4g3k8lo\n");
       return false;
-    case SH_TAB:
-      if (record->event.pressed && IS_LAYER_ON(1)) {
-        mods & MOD_MASK_SHIFT ? TabPrev() : TabNext();
-        return false;
-      }
-      return true;
     default:
       return true;  // Process all other keycodes normally
   }
@@ -208,23 +204,19 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
   if (pressed) {
     switch (combo_index) {
       case CC_IF:
-        SEND_STRING("if () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT)
-                        SS_TAP(X_LEFT));
+        SEND_STRING("if () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
         break;
       case CC_ELSE:
         SEND_STRING("else {}" SS_TAP(X_LEFT));
         break;
       case CC_ELIF:
-        SEND_STRING("else if () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT)
-                        SS_TAP(X_LEFT));
+        SEND_STRING("else if () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
         break;
       case CC_FOR:
-        SEND_STRING("for () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT)
-                        SS_TAP(X_LEFT));
+        SEND_STRING("for () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
         break;
       case CC_WHILE:
-        SEND_STRING("while () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT)
-                        SS_TAP(X_LEFT));
+        SEND_STRING("while () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
         break;
       case CC_RETURN_IF_ERROR:
         SEND_STRING("RETURN_IF_ERROR();" SS_TAP(X_LEFT) SS_TAP(X_LEFT));
