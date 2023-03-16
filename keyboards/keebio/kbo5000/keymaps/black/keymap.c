@@ -178,6 +178,7 @@ enum combo_events {
   CC_WHILE,
   CC_RETURN_IF_ERROR,
   CC_ASSIGN_OR_RETURN,
+  CC_IBLAZE,
   COMBO_LENGTH
 };
 uint16_t COMBO_LEN = COMBO_LENGTH;
@@ -189,6 +190,7 @@ const uint16_t PROGMEM for_combo[] = {KC_F, KC_O, COMBO_END};
 const uint16_t PROGMEM while_combo[] = {KC_W, KC_H, COMBO_END};
 const uint16_t PROGMEM return_if_error_combo[] = {KC_R, KC_I, KC_E, COMBO_END};
 const uint16_t PROGMEM assign_or_return_combo[] = {KC_A, KC_O, KC_R, COMBO_END};
+const uint16_t PROGMEM iblaze_combo[] = {KC_I, KC_B, COMBO_END};
 
 combo_t key_combos[] = {
     [CC_IF] = COMBO_ACTION(if_combo),
@@ -198,6 +200,7 @@ combo_t key_combos[] = {
     [CC_WHILE] = COMBO_ACTION(while_combo),
     [CC_RETURN_IF_ERROR] = COMBO_ACTION(return_if_error_combo),
     [CC_ASSIGN_OR_RETURN] = COMBO_ACTION(assign_or_return_combo),
+    [CC_IBLAZE] = COMBO_ACTION(iblaze_combo),
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
@@ -223,6 +226,9 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         break;
       case CC_ASSIGN_OR_RETURN:
         SEND_STRING("ASSIGN_OR_RETURN();" SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+        break;
+      case CC_IBLAZE:
+        SEND_STRING("iblaze test --opt ");
         break;
     }
   }
