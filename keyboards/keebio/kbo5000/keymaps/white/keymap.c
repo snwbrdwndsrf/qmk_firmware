@@ -40,11 +40,13 @@
   #define SH_F5 KC_F5
   #define SH_FIND C(KC_F)
   #define SH_REPL C(KC_H)
-  #define SH_SALL (KC_A)
+  #define SH_SALL C(KC_A)
 #endif
 
 // For easier app switching.
 #define SH_META ALT_TAB_MOD
+#define SH_ALT_L A(KC_LEFT)
+#define SH_ALT_R A(KC_RIGHT)
 
 // CapsLock on tap, CTRL on hold.
 #define CAPSCTL CTL_T(CW_TOGG)
@@ -72,14 +74,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     QK_RBT,           RGB_VAI, RGB_VAD, RGB_SAI, RGB_SAD, RGB_HUI, RGB_HUD,          RGB_M_P, RGB_M_B,          RGB_M_R,RGB_M_SW,RGB_M_SN, RGB_M_K, RGB_M_X, RGB_M_G, RGB_M_T,
     _______, RGB_MOD, BL_STEP, RGB_TOG, RGB_SPI, RGB_SPD, _______, _______,          _______, _______, _______, _______, _______, _______, KC_DEL,  KC_DEL,  _______, _______,
     _______, _______, _______, SH_WINCL,SH_END,  KC_PGUP, SH_NWTB,                   _______, SH_UNDO, SH_HOME, SH_NL,   _______, _______, _______, _______, _______, _______,
-    DM_RSTP, KC_CAPS, SH_SALL, SH_SAVE, _______, KC_PGDN, _______,                   KC_LEFT, KC_DOWN, KC_UP,  KC_RIGHT, _______, _______,          _______, _______, _______,
-    DM_REC1, _______, SH_UNDO, SH_CUT,  SH_COPY, SH_PSTE, _______,                   SH_WORDL,SH_WORDR,_______, _______, SH_FIND,          _______,          _______,
+    DM_RSTP, KC_CAPS, SH_SALL, SH_SAVE, KC_ESC,  KC_PGDN, _______,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,_______, _______,          _______, _______, _______,
+    DM_REC1, _______, SH_UNDO, SH_CUT,  SH_COPY, SH_PSTE, _______,                   SH_WORDL,SH_WORDR,SH_ALT_L,KC_F12,  SH_FIND,          _______,          _______,
     DM_REC2, _______, _______, _______, _______, _______, _______,                   _______, SH_META, _______, _______,                   _______, _______, _______, _______
   ),
 
   [2] = LAYOUT_ansi(
     QK_BOOT,          _______, _______, _______, _______, _______, _______,          _______, _______,          _______, _______, _______, _______, _______, SH_PWD,  _______,
-    _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    NK_TOGG, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,          _______, _______, _______,
     _______, _______,          _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______,          _______,          _______,
@@ -134,6 +136,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
       }
+    // case KC_TAB:
+    //   if (IS_LAYER_ON(1) && record->event.pressed) {
+    //     if (!(mods & MOD_MASK_CTRL)) {
+    //       SEND_STRING()
+    //     }
+    //   }
     case SH_PWD:
       if (record->event.pressed) SEND_STRING(";;l4g3k8lo\n");
       return false;
@@ -153,7 +161,14 @@ enum encoder_names {
 };
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
-  if (index == RIGHT_HALF_ENC2) clockwise ? TabNext() : TabPrev();
+  // if (index == RIGHT_HALF_ENC2) clockwise ? TabNext() : TabPrev();
+  if (index == RIGHT_HALF_ENC2) {
+    if (IS_LAYER_ON(1)) {
+      clockwise ? tap_code(KC_MNXT) : tap_code(KC_MPRV);
+    } else {
+      clockwise ? tap_code(KC_VOLU) : tap_code(KC_VOLD);
+    }
+  }
   return false;
 }
 
@@ -170,66 +185,66 @@ void matrix_scan_user(void) {
 //---------------------------------------------------------------------------------
 // Combos (Chording)
 
-enum combo_events {
-  CC_IF,
-  CC_ELSE,
-  CC_ELIF,
-  CC_FOR,
-  CC_WHILE,
-  CC_RETURN_IF_ERROR,
-  CC_ASSIGN_OR_RETURN,
-  CC_IBLAZE,
-  COMBO_LENGTH
-};
-uint16_t COMBO_LEN = COMBO_LENGTH;
+// enum combo_events {
+//   CC_IF,
+//   CC_ELSE,
+//   CC_ELIF,
+//   CC_FOR,
+//   CC_WHILE,
+//   CC_RETURN_IF_ERROR,
+//   CC_ASSIGN_OR_RETURN,
+//   CC_IBLAZE,
+//   COMBO_LENGTH
+// };
+// uint16_t COMBO_LEN = COMBO_LENGTH;
 
-const uint16_t PROGMEM if_combo[] = {KC_I, KC_F, COMBO_END};
-const uint16_t PROGMEM else_combo[] = {KC_E, KC_L, COMBO_END};
-const uint16_t PROGMEM elif_combo[] = {KC_E, KC_I, COMBO_END};
-const uint16_t PROGMEM for_combo[] = {KC_F, KC_O, COMBO_END};
-const uint16_t PROGMEM while_combo[] = {KC_W, KC_H, COMBO_END};
-const uint16_t PROGMEM return_if_error_combo[] = {KC_R, KC_I, KC_E, COMBO_END};
-const uint16_t PROGMEM assign_or_return_combo[] = {KC_A, KC_O, KC_R, COMBO_END};
-const uint16_t PROGMEM iblaze_combo[] = {KC_I, KC_B, COMBO_END};
+// const uint16_t PROGMEM if_combo[] = {KC_I, KC_F, COMBO_END};
+// const uint16_t PROGMEM else_combo[] = {KC_E, KC_L, COMBO_END};
+// const uint16_t PROGMEM elif_combo[] = {KC_E, KC_I, COMBO_END};
+// const uint16_t PROGMEM for_combo[] = {KC_F, KC_O, COMBO_END};
+// const uint16_t PROGMEM while_combo[] = {KC_W, KC_H, COMBO_END};
+// const uint16_t PROGMEM return_if_error_combo[] = {KC_R, KC_I, KC_E, COMBO_END};
+// const uint16_t PROGMEM assign_or_return_combo[] = {KC_A, KC_O, KC_R, COMBO_END};
+// const uint16_t PROGMEM iblaze_combo[] = {KC_I, KC_B, COMBO_END};
 
-combo_t key_combos[] = {
-    [CC_IF] = COMBO_ACTION(if_combo),
-    [CC_ELSE] = COMBO_ACTION(else_combo),
-    [CC_ELIF] = COMBO_ACTION(elif_combo),
-    [CC_FOR] = COMBO_ACTION(for_combo),
-    [CC_WHILE] = COMBO_ACTION(while_combo),
-    [CC_RETURN_IF_ERROR] = COMBO_ACTION(return_if_error_combo),
-    [CC_ASSIGN_OR_RETURN] = COMBO_ACTION(assign_or_return_combo),
-    [CC_IBLAZE] = COMBO_ACTION(iblaze_combo),
-};
+// combo_t key_combos[] = {
+//     [CC_IF] = COMBO_ACTION(if_combo),
+//     [CC_ELSE] = COMBO_ACTION(else_combo),
+//     [CC_ELIF] = COMBO_ACTION(elif_combo),
+//     [CC_FOR] = COMBO_ACTION(for_combo),
+//     [CC_WHILE] = COMBO_ACTION(while_combo),
+//     [CC_RETURN_IF_ERROR] = COMBO_ACTION(return_if_error_combo),
+//     [CC_ASSIGN_OR_RETURN] = COMBO_ACTION(assign_or_return_combo),
+//     [CC_IBLAZE] = COMBO_ACTION(iblaze_combo),
+// };
 
-void process_combo_event(uint16_t combo_index, bool pressed) {
-  if (pressed) {
-    switch (combo_index) {
-      case CC_IF:
-        SEND_STRING("if () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
-        break;
-      case CC_ELSE:
-        SEND_STRING("else {}" SS_TAP(X_LEFT));
-        break;
-      case CC_ELIF:
-        SEND_STRING("else if () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
-        break;
-      case CC_FOR:
-        SEND_STRING("for () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
-        break;
-      case CC_WHILE:
-        SEND_STRING("while () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
-        break;
-      case CC_RETURN_IF_ERROR:
-        SEND_STRING("RETURN_IF_ERROR();" SS_TAP(X_LEFT) SS_TAP(X_LEFT));
-        break;
-      case CC_ASSIGN_OR_RETURN:
-        SEND_STRING("ASSIGN_OR_RETURN();" SS_TAP(X_LEFT) SS_TAP(X_LEFT));
-        break;
-      case CC_IBLAZE:
-        SEND_STRING("iblaze test --opt ");
-        break;
-    }
-  }
-}
+// void process_combo_event(uint16_t combo_index, bool pressed) {
+//   if (pressed) {
+//     switch (combo_index) {
+//       case CC_IF:
+//         SEND_STRING("if () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+//         break;
+//       case CC_ELSE:
+//         SEND_STRING("else {}" SS_TAP(X_LEFT));
+//         break;
+//       case CC_ELIF:
+//         SEND_STRING("else if () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+//         break;
+//       case CC_FOR:
+//         SEND_STRING("for () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+//         break;
+//       case CC_WHILE:
+//         SEND_STRING("while () {}" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+//         break;
+//       case CC_RETURN_IF_ERROR:
+//         SEND_STRING("RETURN_IF_ERROR();" SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+//         break;
+//       case CC_ASSIGN_OR_RETURN:
+//         SEND_STRING("ASSIGN_OR_RETURN();" SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+//         break;
+//       case CC_IBLAZE:
+//         SEND_STRING("iblaze test --opt ");
+//         break;
+//     }
+//   }
+// }

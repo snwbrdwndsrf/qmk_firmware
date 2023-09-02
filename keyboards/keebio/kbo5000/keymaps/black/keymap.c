@@ -40,11 +40,13 @@
   #define SH_F5 KC_F5
   #define SH_FIND C(KC_F)
   #define SH_REPL C(KC_H)
-  #define SH_SALL (KC_A)
+  #define SH_SALL C(KC_A)
 #endif
 
 // For easier app switching.
 #define SH_META ALT_TAB_MOD
+#define SH_ALT_L A(KC_LEFT)
+#define SH_ALT_R A(KC_RIGHT)
 
 // CapsLock on tap, CTRL on hold.
 #define CAPSCTL CTL_T(CW_TOGG)
@@ -72,14 +74,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     QK_RBT,           RGB_VAI, RGB_VAD, RGB_SAI, RGB_SAD, RGB_HUI, RGB_HUD,          RGB_M_P, RGB_M_B,          RGB_M_R,RGB_M_SW,RGB_M_SN, RGB_M_K, RGB_M_X, RGB_M_G, RGB_M_T,
     _______, RGB_MOD, BL_STEP, RGB_TOG, RGB_SPI, RGB_SPD, _______, _______,          _______, _______, _______, _______, _______, _______, KC_DEL,  KC_DEL,  _______, _______,
     _______, _______, _______, SH_WINCL,SH_END,  KC_PGUP, SH_NWTB,                   _______, SH_UNDO, SH_HOME, SH_NL,   _______, _______, _______, _______, _______, _______,
-    DM_RSTP, KC_CAPS, SH_SALL, SH_SAVE, _______, KC_PGDN, _______,                   KC_LEFT, KC_DOWN, KC_UP,  KC_RIGHT, _______, _______,          _______, _______, _______,
-    DM_REC1, _______, SH_UNDO, SH_CUT,  SH_COPY, SH_PSTE, _______,                   SH_WORDL,SH_WORDR,_______, _______, SH_FIND,          _______,          _______,
+    DM_RSTP, KC_CAPS, SH_SALL, SH_SAVE, _______, KC_PGDN, _______,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,_______, _______,          _______, _______, _______,
+    DM_REC1, _______, SH_UNDO, SH_CUT,  SH_COPY, SH_PSTE, _______,                   SH_WORDL,SH_WORDR,_______, KC_F12,  SH_FIND,          _______,          _______,
     DM_REC2, _______, _______, _______, _______, _______, _______,                   _______, SH_META,  _______, _______,                   _______, _______, _______, _______
   ),
 
   [2] = LAYOUT_ansi(
     QK_BOOT,          _______, _______, _______, _______, _______, _______,          _______, _______,          _______, _______, _______, _______, _______, SH_PWD,  _______,
-    _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    NK_TOGG, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______,          _______, _______, _______,
     _______, _______,          _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______,          _______,          _______,
